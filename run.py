@@ -18,9 +18,9 @@ from selenium.webdriver.chrome.options import Options
 from config import users
 from scrape import scrapeData
 
-chromedriver_autoinstaller.install()
+# chromedriver_autoinstaller.install()
     
-chrome_options = Options()
+# chrome_options = Options()
 
 # driver = webdriver.Chrome(options=chrome_options)
 
@@ -79,7 +79,7 @@ def get_link(acc):
                                 print(i)
                                 # driver.get(i)
                                 # driver.switch_to.new_window('window')
-                                webbrowser.open_new(i)
+                                webbrowser.open(i,new=1)
                     print("="*100)
 
 def logIN(user,password):
@@ -89,12 +89,16 @@ def logIN(user,password):
     print("login done")
     get_link(acc)
 
-def main(a,b):
+def start(a,b):
         try:
             logIN(a,b)
         except Exception as e:
             print(e)
 
-executor = concurrent.futures.ProcessPoolExecutor(40)
-futures = [executor.submit(main, i,users.get(i)) for i in users.keys()]
-concurrent.futures.wait(futures)
+def main():
+    executor = concurrent.futures.ProcessPoolExecutor(40)
+    futures = [executor.submit(start, i,users.get(i)) for i in users.keys()]
+    concurrent.futures.wait(futures)
+
+if __name__ == '__main__':
+    main()
